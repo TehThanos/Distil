@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+import uuid
+import argparse
+import hashlib
+import pyperclip
+
+parser = argparse.ArgumentParser(description='Open the given url in chrome reader mode.')
+parser.add_argument('url', type=str, help='The url to open')
+
+args = parser.parse_args()
+urlSHA256Hash = hashlib.sha256(args.url.encode('utf-8')).hexdigest()
+uuidLink = uuid.uuid4()
+
+link = f"chrome-distiller://{str(uuidLink)}_{urlSHA256Hash}/?url={args.url}"
+pyperclip.copy(link)
+print(f"Link copied to clipboard: {link}")
